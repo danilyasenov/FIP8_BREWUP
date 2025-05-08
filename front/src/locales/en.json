@@ -1,0 +1,149 @@
+{
+  "nav": {
+    "home": "Home",
+    "calculator": "Calculator",
+    "orders": "My Orders",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register"
+  },
+  "auth": {
+    "login_title": "Login to Account",
+    "register_title": "Register a New Account",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "submit": "Submit",
+    "no_account": "Don't have an account?",
+    "have_account": "Already have an account?",
+    "to_register": "Register",
+    "to_login": "Login",
+    "passwords_do_not_match": "Passwords do not match",
+    "password_too_short": "Password must be at least 6 characters",
+    "login_success": "You have successfully logged in!",
+    "register_success": "Registration successful!",
+    "login_error": "Login error",
+    "register_error": "Registration error",
+    "invalid_credentials": "Invalid email or password",
+    "password_mismatch": "Passwords do not match"
+  },
+  "calculator": {
+    "title": "Price Calculator",
+    "instructions": "📖 Instructions",
+    "mode": "Operation Mode",
+    "material": "Material",
+    "thickness": "Thickness",
+    "width": "Width",
+    "height": "Height",
+    "change_size": "✏️ Change Size",
+    "total_price": "Total Price",
+    "submit": "✅ Submit Order",
+    "warning": "Sizes change proportionally. Allowed range: {{min}} cm – {{max}} cm.",
+    "modes": {
+      "cutting": "Cutting",
+      "engraving": "Engraving"
+    },
+    "success": "✅ Order successfully submitted!",
+    "error": {
+      "no_file": "❗ Please upload an SVG file before submitting.",
+      "not_authenticated": "❗ You must be logged in to submit an order.",
+      "no_token": "❌ Error: authorization token not found.",
+      "unauthorized": "❌ Unauthorized access. Please login.",
+      "generic": "❌ Error while submitting the order.",
+      "network": "❌ Failed to submit order. Check your connection."
+    },
+    "result": {
+      "cut": "✂️ Most likely suitable for CUTTING",
+      "engrave": "🖋️ Most likely NOT suitable for cutting (engraving)"
+    },
+    "check_cut": "🧐 Check: is it suitable for cutting?"
+  },
+  "orders": {
+    "my_orders": "My Orders",
+    "price": "Price",
+    "status": "Status",
+    "delete": "Delete",
+    "resend": " Resend",
+    "close": "Close",
+    "comment": "Admin Comment",
+    "download": " Download file",
+    "status_waiting": "Waiting",
+    "status_rejected": "Rejected",
+    "status_accepted": "Accepted",
+    "status_in_progress": "In Progress",
+    "status_payment_pending": "Payment pending",
+    "payment_pending_title": "Payment is expected for this order",
+    "payment_pending_instruction": "Please include your order number when making the payment.",
+    "payment_pending_note": "After confirmation by the administrator, the order will proceed to execution.",
+    "not_logged_in_title": "You are not logged in",
+    "not_logged_in_message": "To view your orders, please log in using the top menu."
+  },
+  "upload": {
+    "title": "📂 Upload SVG File",
+    "preview": "SVG Preview",
+    "remove": "❌",
+    "label": "Your file",
+    "invalid_svg": "Invalid SVG!"
+  },
+  "messages": {
+    "upload_file_required": "❗ Please upload an SVG file before submitting.",
+    "auth_required": "❗ You must be logged in to submit an order.",
+    "token_missing": "❌ Error: authorization token not found.",
+    "submit_success": "✅ Order successfully submitted!",
+    "unauthorized": "❌ Unauthorized access. Please login.",
+    "submit_error": "❌ Error while submitting the order.",
+    "connection_error": "❌ Failed to submit order. Check your connection."
+  },
+  "materials": {
+    "Фанера": "Polywood",
+    "Акрил": "Acrylic"
+  },
+  "change_size_modal": {
+    "title": "Change Size",
+    "width": "Width",
+    "height": "Height",
+    "placeholder": "Enter value",
+    "range": "Allowed range: from {{min}} to {{max}} cm",
+    "save": "Save"
+  },
+  "instruction_modal": {
+    "svg_tip": "💡 If your file is not in SVG format, use an online converter to convert it to SVG (e.g., PNG → SVG).",
+    "title": "Instructions",
+    "cutting_title": "🛠 Cutting:",
+    "cutting_1": "✅ Only SVG files",
+    "cutting_2": "✅ All lines must be <b>1px</b>",
+    "cutting_3": "✅ No fill, only stroke stroke",
+    "cutting_4": "✅ Real dimensions in file (1 cm ≈ 37.8 px)",
+    "cutting_5": "✅ Combine all strokes into one path",
+    "engraving_title": "🔥 Engraving:",
+    "engraving_1": "✅ Only SVG files",
+    "engraving_2": "✅ Engraving works via fill",
+    "engraving_3": "✅ File must be black and white (black = engrave)",
+    "engraving_4": "✅ All objects must be on one layer",
+    "warning": "❗ If your file is incorrect, the price calculation may be wrong!"
+  },
+  "success_modal": {
+    "title": "Order submitted!",
+    "description": "We are already processing your SVG file.",
+    "ok": "OK"
+  },
+  "order_modal": {
+    "title": "Order #{{id}}",
+    "file": "File",
+    "mode": "Mode",
+    "material": "Material",
+    "thickness": "Thickness",
+    "width": "Width",
+    "height": "Height",
+    "work": "Work",
+    "laser": "Laser Time",
+    "price": "Price",
+    "status": "Status"
+  },
+  "home": {
+    "title": "Order Optimization for Laser Cutting",
+    "description": "Easily and quickly create laser cutting orders! Our service automatically calculates the price, uploads SVG files, and helps streamline the process.",
+    "button": "Let's Start!",
+    "image_alt": "Laser cutting"
+  }
+}
