@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import laserImage from "../assets/laser_cutting.jpg"; // Замените на правильный путь к изображению
+import laserImage from "../assets/laser_cutting.jpg";
 
 function Home() {
   const { t } = useTranslation();

@@ -6,6 +6,8 @@ import { API_URL } from "../config";
 
 export default function RegisterForm() {
   const { t } = useTranslation();
+
+  // Состояния для полей и обработки ошибок/загрузки
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -14,14 +16,17 @@ export default function RegisterForm() {
 
   const navigate = useNavigate();
 
+  // Обработка отправки формы регистрации
   const handleRegister = async (e) => {
     e.preventDefault();
 
+    // Проверка длины пароля
     if (password.length < 6) {
       setError(t("auth.password_too_short"));
       return;
     }
 
+    // Проверка совпадения пароля и подтверждения
     if (password !== confirm) {
       setError(t("auth.password_mismatch"));
       return;
@@ -41,9 +46,10 @@ export default function RegisterForm() {
 
       if (response.ok) {
         toast.success(t("auth.register_success"));
-        navigate("/login");
+        navigate("/login"); // Переход на страницу логина
       } else {
         const data = await response.json();
+        // Вывод ошибок от бэкенда
         if (data && data.email) {
           setError(data.email.join(" "));
         } else {
@@ -61,15 +67,20 @@ export default function RegisterForm() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-blue-900 px-4">
       <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md space-y-6">
+        
+        {/* Заголовок формы */}
         <h2 className="text-2xl font-bold text-center text-blue-700">{t("auth.register_title")}</h2>
 
+        {/* Форма регистрации */}
         <form onSubmit={handleRegister} className="space-y-4">
+          {/* Ошибка валидации или от сервера */}
           {error && (
             <div className="text-red-600 font-medium text-sm bg-red-100 rounded p-2">
               {error}
             </div>
           )}
 
+          {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-700">{t("auth.email")}</label>
             <input
@@ -82,6 +93,7 @@ export default function RegisterForm() {
             />
           </div>
 
+          {/* Пароль */}
           <div>
             <label className="block text-sm font-medium text-gray-700">{t("auth.password")}</label>
             <input
@@ -94,6 +106,7 @@ export default function RegisterForm() {
             />
           </div>
 
+          {/* Подтверждение пароля */}
           <div>
             <label className="block text-sm font-medium text-gray-700">{t("auth.confirm_password")}</label>
             <input
@@ -106,6 +119,7 @@ export default function RegisterForm() {
             />
           </div>
 
+          {/* Кнопка регистрации */}
           <button
             type="submit"
             disabled={loading}
@@ -115,6 +129,7 @@ export default function RegisterForm() {
           </button>
         </form>
 
+        {/* Ссылка на вход */}
         <p className="text-center text-sm text-gray-600">
           {t("auth.have_account")}{" "}
           <Link to="/login" className="text-blue-600 hover:underline">

@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { API_URL } from "../config";
 import { useNavigate } from "react-router-dom";
 
+// Цвета статусов заказов
 const statusColors = {
   waiting: "bg-gray-400",
   rejected: "bg-red-500",
@@ -16,11 +17,12 @@ const statusColors = {
 
 export default function UserOrders() {
   const { isAuthenticated } = useAuth();
-  const navigate = useNavigate(); // ✅ ВНЕ УСЛОВИЯ
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const { t } = useTranslation();
 
+  // Получение заказов при монтировании
   useEffect(() => {
     if (!isAuthenticated) return;
 
@@ -46,6 +48,7 @@ export default function UserOrders() {
     fetchOrders();
   }, [isAuthenticated]);
 
+  // Удаление заказа
   const handleDelete = async (id) => {
     const token = localStorage.getItem("access");
     if (!token) return alert("❗ Не авторизован");
@@ -68,6 +71,7 @@ export default function UserOrders() {
     }
   };
 
+  // Повторная отправка отклонённого заказа
   const handleResend = async (id) => {
     const token = localStorage.getItem("access");
     if (!token) return alert("❗ Не авторизован");
@@ -97,6 +101,7 @@ export default function UserOrders() {
     }
   };
 
+  // Если пользователь не вошёл в систему
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-blue-900 text-white px-4 text-center">
@@ -128,6 +133,7 @@ export default function UserOrders() {
     <div className="min-h-screen bg-blue-900 text-white p-10">
       <h1 className="text-3xl font-bold mb-6">📦 {t("orders.my_orders")}</h1>
 
+      {/* Список заказов */}
       <div className="space-y-4">
         {orders.map((order) => (
           <div
@@ -152,6 +158,7 @@ export default function UserOrders() {
         ))}
       </div>
 
+      {/* Модалка в зависимости от статуса заказа */}
       {selectedOrder?.status === "payment_pending" ? (
         <PaymentPendingModal
           order={selectedOrder}

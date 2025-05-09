@@ -11,12 +11,12 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const { login } = useAuth();
 
+  // Обработка логина
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
       const response = await fetch(`${API_URL}/token/`, {
-
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,9 +29,9 @@ export default function LoginForm() {
       }
 
       const data = await response.json();
-      login(data.access, data.refresh);
+      login(data.access, data.refresh); // Сохраняем токены
       toast.success(t("auth.login_success"));
-      window.location.href = "/orders";
+      window.location.href = "/orders"; // Перенаправление после входа
     } catch (err) {
       console.error("Login error:", err.message);
       toast.error(`${t("auth.login_error")}: ${err.message}`);
@@ -41,8 +41,11 @@ export default function LoginForm() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-blue-900 px-4">
       <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md space-y-6">
+        
+        {/* Заголовок */}
         <h2 className="text-2xl font-bold text-center text-blue-700">{t("auth.login_title")}</h2>
 
+        {/* Форма входа */}
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">{t("auth.email")}</label>
@@ -68,6 +71,7 @@ export default function LoginForm() {
             />
           </div>
 
+          {/* Кнопка входа */}
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition"
@@ -76,6 +80,7 @@ export default function LoginForm() {
           </button>
         </form>
 
+        {/* Ссылка на регистрацию */}
         <p className="text-center text-sm text-gray-600">
           {t("auth.no_account")}{" "}
           <Link to="/register" className="text-blue-600 hover:underline">

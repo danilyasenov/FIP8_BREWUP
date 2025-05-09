@@ -18,27 +18,31 @@ function PriceCalculator({ vectorLength, originalSize, file, onResetFile }) {
   const { t } = useTranslation();
   const { isAuthenticated } = useAuth();
 
+  // Выбор параметров: режим, материал, толщина
   const [mode, setMode] = useState("cutting");
   const [material, setMaterial] = useState("Фанера");
   const [thickness, setThickness] = useState("3mm");
 
+  // Управление модальными окнами
   const [showInstructions, setShowInstructions] = useState(false);
   const [showSizeModal, setShowSizeModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
+  // Начальные размеры (в см)
   const initialWidthCm = originalSize.width / PX_TO_CM || 10;
   const initialHeightCm = originalSize.height / PX_TO_CM || 10;
 
   const [widthCm, setWidthCm] = useState(initialWidthCm);
   const [heightCm, setHeightCm] = useState(initialHeightCm);
 
+  // Обновляем размеры при смене файла
   useEffect(() => {
     setWidthCm(initialWidthCm);
     setHeightCm(initialHeightCm);
   }, [originalSize]);
 
+  // Получение цены и времени на основе текущих параметров
   const materialCost = MATERIALS[material][thickness];
-
   const { operationTime, totalCost, work } = calculateLaserJob({
     mode,
     thickness,
@@ -50,6 +54,7 @@ function PriceCalculator({ vectorLength, originalSize, file, onResetFile }) {
     materialCost,
   });
 
+  // Сброс параметров калькулятора
   const resetCalculator = () => {
     setMode("cutting");
     setMaterial("Фанера");
@@ -59,6 +64,7 @@ function PriceCalculator({ vectorLength, originalSize, file, onResetFile }) {
     if (onResetFile) onResetFile();
   };
 
+  // Отправка заказа на сервер
   const handleSubmit = async () => {
     if (!file) {
       toast.error(t("calculator.error.no_file"));
@@ -76,6 +82,7 @@ function PriceCalculator({ vectorLength, originalSize, file, onResetFile }) {
       return;
     }
 
+    // Сбор данных для заказа
     const formData = new FormData();
     formData.append("file", file);
     formData.append("mode", mode);
@@ -114,12 +121,9 @@ function PriceCalculator({ vectorLength, originalSize, file, onResetFile }) {
       console.error("Ошибка отправки:", err);
       toast.error(t("calculator.error.network"));
     }
-
-
-
-
   };
 
+  // ML-проверка: вырезка или гравировка
   const handleMLCheck = async () => {
     if (!file) {
       toast.error(t("calculator.error.no_file"));
@@ -164,6 +168,7 @@ function PriceCalculator({ vectorLength, originalSize, file, onResetFile }) {
         return;
       }
 
+      // Вывод результата предсказания
       if (data.result === "cut") {
         toast.success(t("calculator.result.cut"));
       } else if (data.result === "engrave") {
@@ -177,9 +182,9 @@ function PriceCalculator({ vectorLength, originalSize, file, onResetFile }) {
     }
   };
 
-
   return (
     <div className="w-3/ p-8 bg-white rounded-lg shadow-lg">
+      {/* Кнопка с инструкциями */}
       <button
         onClick={() => setShowInstructions(true)}
         className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition mb-4"
@@ -187,13 +192,13 @@ function PriceCalculator({ vectorLength, originalSize, file, onResetFile }) {
         {t("calculator.instructions")}
       </button>
 
+      {/* Заголовок и предупреждение */}
       <h2 className="text-3xl font-bold mb-4 text-gray-900">{t("calculator.title")}</h2>
-
       <p className="text-red-500 font-semibold text-lg mb-6">
         🔔 {t("calculator.warning", { min: MIN_SIZE, max: MAX_SIZE })}
       </p>
 
-      {/* Режим */}
+      {/* Выбор режима */}
       <div className="mb-6">
         <p className="font-semibold text-gray-800 mb-3 text-lg">{t("calculator.mode")}</p>
         <div className="flex space-x-4">
@@ -201,8 +206,9 @@ function PriceCalculator({ vectorLength, originalSize, file, onResetFile }) {
             <button
               key={item}
               onClick={() => setMode(item)}
-              className={`px-5 py-3 rounded-md font-medium text-lg transition ${mode === item ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-                }`}
+              className={`px-5 py-3 rounded-md font-medium text-lg transition ${
+                mode === item ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+              }`}
             >
               {t(`calculator.modes.${item}`)}
             </button>
@@ -210,7 +216,7 @@ function PriceCalculator({ vectorLength, originalSize, file, onResetFile }) {
         </div>
       </div>
 
-      {/* Материал */}
+      {/* Выбор материала */}
       <div className="mb-6">
         <p className="font-semibold text-gray-800 mb-3 text-lg">{t("calculator.material")}</p>
         <div className="flex space-x-4">
@@ -218,17 +224,17 @@ function PriceCalculator({ vectorLength, originalSize, file, onResetFile }) {
             <button
               key={mat}
               onClick={() => setMaterial(mat)}
-              className={`px-5 py-3 rounded-md font-medium text-lg transition ${material === mat ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-                }`}
+              className={`px-5 py-3 rounded-md font-medium text-lg transition ${
+                material === mat ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+              }`}
             >
               {t(`materials.${mat}`)}
-
             </button>
           ))}
         </div>
       </div>
 
-      {/* Толщина */}
+      {/* Выбор толщины */}
       <div className="mb-6">
         <p className="font-semibold text-gray-800 mb-3 text-lg">{t("calculator.thickness")}</p>
         <div className="flex space-x-4">
@@ -236,8 +242,9 @@ function PriceCalculator({ vectorLength, originalSize, file, onResetFile }) {
             <button
               key={thick}
               onClick={() => setThickness(thick)}
-              className={`px-5 py-3 rounded-md font-medium text-lg transition ${thickness === thick ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-                }`}
+              className={`px-5 py-3 rounded-md font-medium text-lg transition ${
+                thickness === thick ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+              }`}
             >
               {thick}
             </button>
@@ -245,12 +252,13 @@ function PriceCalculator({ vectorLength, originalSize, file, onResetFile }) {
         </div>
       </div>
 
-      {/* Размеры */}
+      {/* Текущие размеры */}
       <div className="text-lg mb-4">
         <p>📏 {t("calculator.width")}: <strong>{widthCm.toFixed(2)} см</strong></p>
         <p>📐 {t("calculator.height")}: <strong>{heightCm.toFixed(2)} см</strong></p>
       </div>
 
+      {/* Кнопка изменения размеров */}
       <button
         onClick={() => setShowSizeModal(true)}
         className="mb-6 px-6 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
@@ -258,6 +266,7 @@ function PriceCalculator({ vectorLength, originalSize, file, onResetFile }) {
         {t("calculator.change_size")}
       </button>
 
+      {/* Модалка изменения размеров */}
       {showSizeModal && (
         <ChangeSizeModal
           initialWidth={widthCm}
@@ -271,10 +280,12 @@ function PriceCalculator({ vectorLength, originalSize, file, onResetFile }) {
         />
       )}
 
+      {/* Общая цена */}
       <h3 className="text-2xl font-bold mt-6 text-gray-900">
         {t("calculator.total_price")}: {totalCost.toFixed(2)} сом
       </h3>
 
+      {/* Кнопки отправки и ML-проверки */}
       <div className="flex flex-col space-y-3 mt-4 mb-4">
         <button
           onClick={handleSubmit}
@@ -291,10 +302,7 @@ function PriceCalculator({ vectorLength, originalSize, file, onResetFile }) {
         </button>
       </div>
 
-
-
-
-
+      {/* Модальные окна */}
       <InstructionModal
         visible={showInstructions}
         onClose={() => setShowInstructions(false)}

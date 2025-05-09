@@ -12,15 +12,18 @@ export default function Header() {
   const { t, i18n } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // Выход из аккаунта
   const handleLogout = () => {
     logout();
     navigate("/");
     setMenuOpen(false);
   };
 
+  // Открытие/закрытие мобильного меню
   const toggleMenu = () => setMenuOpen((prev) => !prev);
   const closeMenu = () => setMenuOpen(false);
 
+  // Стили для кнопок навигации
   const linkClasses = (path) =>
     `px-4 py-2 rounded-lg transition text-center ${
       location.pathname === path
@@ -28,6 +31,7 @@ export default function Header() {
         : "bg-blue-600 text-white hover:bg-blue-700"
     }`;
 
+  // Компонент переключения языка
   const LanguageSwitcher = ({ isMobile = false }) => {
     const langBtn = (code, label) => (
       <button
@@ -63,7 +67,7 @@ export default function Header() {
           <img src={header_logo} alt="Logo" className="h-12 w-auto" />
         </Link>
 
-        {/* Бургер кнопка */}
+        {/* Бургер-кнопка — только на мобильных */}
         <button
           onClick={toggleMenu}
           className="text-white text-3xl md:hidden focus:outline-none"
@@ -71,7 +75,7 @@ export default function Header() {
           ☰
         </button>
 
-        {/* Языки + Меню — десктоп */}
+        {/* Навигация и переключатель языка — десктоп */}
         <div className="hidden md:flex items-center space-x-4">
           <ButtonLink to="/" className={linkClasses("/")}>{t("nav.home")}</ButtonLink>
           <ButtonLink to="/calculator" className={linkClasses("/calculator")}>{t("nav.calculator")}</ButtonLink>
@@ -95,7 +99,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Меню — мобильное */}
+      {/* Мобильное меню */}
       {menuOpen && (
         <div className="md:hidden mt-4 flex flex-col gap-2 bg-blue-800 p-4 rounded-xl shadow-lg">
           <ButtonLink to="/" onClick={closeMenu} className="w-full text-center">{t("nav.home")}</ButtonLink>
